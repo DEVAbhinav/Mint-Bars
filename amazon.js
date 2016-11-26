@@ -3,7 +3,8 @@ console.log("first Script using phantom >> \n says Hello world!");
 var page = require('webpage').create(),
   system = require('system'),
   t, address;
-
+var config = require('./config.js');
+//console.log("config valus is " + config.username);
 //settings
 page.settings.userAgent = 'Mozilla/5.0 (Windows NT 10.0; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/44.0.2403.157 Safari/537.36';
 page.settings.javascriptEnabled = true;
@@ -42,10 +43,14 @@ function manipulatingThings1() {
 
 
 function submitLogindetails () {
-    flag = page.evaluate(function () {
-         document.getElementById('ap_email').text = 'abhinavpandey.1996@gmail.com';
-          document.getElementById('ap_password').text = '936867472'; 
-    })
+    flag = page.evaluate(function (config) {
+        document.getElementById('ap_email').text = config.username;
+        document.getElementById('ap_password').text = config.password; 
+        document.getElementById('signInSubmit').click();
+        return 1
+
+    },config);
+
        
     setInterval(function() {
         if(flag == 1 && loadInProgress == false) {
