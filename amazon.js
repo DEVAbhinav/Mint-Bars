@@ -1,10 +1,47 @@
 console.log("first Script using phantom >> \n says Hello world!");
 
-var page = require('webpage').create();
-page.open('https://www.amazon.in/ap/signin?_encoding=UTF8&openid.assoc_handle=inflex&openid.claimed_id=http%3A%2F%2Fspecs.openid.net%2Fauth%2F2.0%2Fidentifier_select&openid.identity=http%3A%2F%2Fspecs.openid.net%2Fauth%2F2.0%2Fidentifier_select&openid.mode=checkid_setup&openid.ns=http%3A%2F%2Fspecs.openid.net%2Fauth%2F2.0&openid.ns.pape=http%3A%2F%2Fspecs.openid.net%2Fextensions%2Fpape%2F1.0&openid.pape.max_auth_age=0&openid.return_to=https%3A%2F%2Fwww.amazon.in%2Fgp%2Fyourstore%2Fhome%3Fie%3DUTF8%26ref_%3Dnav_ya_signin', function(status) {
-  console.log("Status: " + status);
-  if(status === "success") {
-    page.render('example.png');
-  }
-  phantom.exit();
-});
+var page = require('webpage').create(),
+  system = require('system'),
+  t, address;
+
+//settings
+page.settings.userAgent = 'Mozilla/5.0 (Windows NT 10.0; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/44.0.2403.157 Safari/537.36';
+page.settings.javascriptEnabled = true;
+page.settings.loadImages = false;//Script is much faster with this field set to false
+phantom.cookiesEnabled = true;
+phantom.javascriptEnabled = true;
+//settings
+
+
+console.log('All settings loaded, start with execution');
+
+/**********DEFINE STEPS THAT FANTOM SHOULD DO***********************/
+
+page.open('http://www.amazon.in',function (success) {
+    if(success) {
+        console.log('success');
+        page.render("lets see.png")
+        phantom.exit();}
+    else
+        console.log("not received success");
+})
+
+
+/**********END STEPS THAT FANTOM SHOULD DO***********************/
+
+
+/**
+ * These listeners are very important in order to phantom work properly. Using these listeners, we control loadInProgress marker which controls, weather a page is fully loaded.
+ * Without this, we will get content of the page, even a page is not fully loaded.
+ */
+page.onLoadStarted = function() {
+    loadInProgress = true;
+    console.log('Loading started');
+};
+page.onLoadFinished = function() {
+    loadInProgress = false;
+    console.log('Loading finished');
+};
+page.onConsoleMessage = function(msg) {
+    console.log(msg);
+};
