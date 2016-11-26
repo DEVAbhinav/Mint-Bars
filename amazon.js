@@ -21,7 +21,7 @@ page.open('http://www.amazon.in',function (success) {
     if(success) {
         console.log('success');
         page.render("lets see"+1+".png")
-        manipulatingThings();
+        manipulatingThings1();
     }
     else
         console.log("not received success");
@@ -31,18 +31,28 @@ page.open('http://www.amazon.in',function (success) {
 var step = [];
  
 
-function manipulatingThings() { 
+function manipulatingThings1() { 
     flag = page.evaluate(function () {
         document.getElementById('nav-link-yourAccount').click();
-        return 1;
+        //return 1;
     });
+    submitLogindetails();
+
+}
+
+
+function submitLogindetails () {
+    flag = page.evaluate(function () {
+         document.getElementById('ap_email').text = 'abhinavpandey.1996@gmail.com';
+          document.getElementById('ap_password').text = '936867472'; 
+    })
        
     setInterval(function() {
         if(flag == 1 && loadInProgress == false) {
         page.render("afterClickLogin.png");
         phantom.exit(); }
     },200);
-    //setTimeout(function() {return phantom.exit()},322);
+   
 }
 
 
