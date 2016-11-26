@@ -14,17 +14,36 @@ phantom.javascriptEnabled = true;
 
 
 console.log('All settings loaded, start with execution');
-
+var flag= 0;
 /**********DEFINE STEPS THAT FANTOM SHOULD DO***********************/
 
 page.open('http://www.amazon.in',function (success) {
     if(success) {
         console.log('success');
-        page.render("lets see.png")
-        phantom.exit();}
+        page.render("lets see"+1+".png")
+        manipulatingThings();
+    }
     else
         console.log("not received success");
 })
+
+
+var step = [];
+ 
+
+function manipulatingThings() { 
+    flag = page.evaluate(function () {
+        document.getElementById('nav-link-yourAccount').click();
+        return 1;
+    });
+       
+    setInterval(function() {
+        if(flag == 1 && loadInProgress == false) {
+        page.render("afterClickLogin.png");
+        phantom.exit(); }
+    },200);
+    //setTimeout(function() {return phantom.exit()},322);
+}
 
 
 /**********END STEPS THAT FANTOM SHOULD DO***********************/
