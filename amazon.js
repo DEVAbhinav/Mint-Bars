@@ -29,13 +29,13 @@ page.open('http://www.amazon.in',function (success) {
 })
 
 
-var step = [];
+var step = [],manythingflag=0;
  
 
 function manipulatingThings1() { 
-    flag = page.evaluate(function () {
+    manythingflag = page.evaluate(function () {
         document.getElementById('nav-link-yourAccount').click();
-        //return 1;
+        return 1;
     });
     submitLogindetails();
 
@@ -56,8 +56,13 @@ function submitLogindetails () {
         if(flag == 1 && loadInProgress == false) {
         page.render("afterClickLogin.png");
         phantom.exit(); }
+
+        if(manythingflag ==1 && loadInProgress == false) {
+            page.render("AfterManipulation.png");
+            manythingflag = 0;
+        }
     },200);
-   
+
 }
 
 
